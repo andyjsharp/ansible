@@ -327,6 +327,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable):
 
     def refresh_lookups(self):
         lookup_processes = (
+            self.refresh_platforms_lookup,
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
             self.refresh_tenants_lookup,
