@@ -199,7 +199,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable):
             "platforms": self.extract_platform,
             "device_types": self.extract_device_type,
             "config_context": self.extract_config_context,
-            "manufacturers": self.extract_manufacturer
+            "manufacturers": self.extract_manufacturer,
+            "interfaces": self.extract_interface
         }
 
     def extract_disk(self, host):
@@ -255,6 +256,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable):
         except Exception:
             return
 
+# raw dump of data currently
+    def extract_interface(self, host):
+        try:
+            url = urljoin(self.api_endpoint, "/api/dcim/interfaces/?device_id=" + str(host["id"]))
+            device_lookup = self._fetch_information(url)
+            return [device_lookup["results"]]
+        except Exception:
+            return
+    
     def extract_manufacturer(self, host):
         try:
             return [self.manufacturers_lookup[host["device_type"]["manufacturer"]["id"]]]
